@@ -65,6 +65,8 @@
                 <span class="card-title" style="padding: 8px;">{{$user->name}}</span><br>
                 <i class="material-icons">phone</i>
                 <span class="card-title" style="padding: 8px;">{{$user->no_telp}}</span><br>
+                <i class="material-icons">place</i>
+                <span class="card-title" style="padding: 8px;font-size: 10pt">{{$artikel->provinsi}},  {{$artikel->tempat}}</span><br>
                 </div>
             </div>
         </div>        

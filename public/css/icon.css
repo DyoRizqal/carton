@@ -26,7 +26,18 @@
     font-weight: lighter;
     src: url(/segoeuil.ttf) format("truetype");
 }
+@font-face {
+    font-family: "Dolce Vita";
+    font-weight: bold;
+    src: url(/dolce.ttf) format("truetype");
+}
 *{
     font-family: segoe UI;
     font-weight: lighter;
+}
+.no-user-select {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }

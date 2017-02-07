@@ -26,24 +26,27 @@
       session()->put('count1',count($count1));
     @endphp
     <div class="navbar-fixed">
-     <nav>
+     <nav style="box-shadow: none;">
+      
+
     <div class="nav-wrapper black-text" style="background: #fff;">
-      <a href="/"><img class="brand-logo responsive-img nana" src="/logo4.png"></a>
+
+      <a class="brand-logo nana" style="font-family: Dolce Vita;color: #f44336;font-weight: bold;" href="/"> CartOn</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="/home" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Dashboard"><i class="material-icons">dashboard</i></a></li>
         <!-- <li><a href="#" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Profile"><i class="material-icons">view_module</i></a></li> -->
-        <li><a href="#" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Pencarian"><i class="material-icons">search</i></a></li>
-           @if(Auth::user()->type=='admin')
+           @if(Auth::user()->type!='')
+
           <li><a href="{{route('waiting')}}" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Permintaan Persetujuan"><i class="material-icons @if(session('count')) left @endif">hourglass_empty</i>
             @if(session('count'))
-              <span class="new badge blue">{{ session()->get('count') }}</span>
+              <span class="new badge blue white-text">{{ session()->get('count') }}</span>
             @endif
               </a></li>
             @else
-             <li><a href="#" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Menunggu Persetujuan"><i class="material-icons @if(session('count1')) left @endif">hourglass_full </i>
+             <li><a href="{{route('request')}}" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Menunggu Persetujuan"><i class="material-icons @if(session('count1')) left @endif">hourglass_empty</i>
             @if(session('count1'))
-          <span class="new badge blue" data-badge-caption="{{ session()->get('count') }}"></span>
-        @endif
+          <span class="new badge black-text" style="background: #ffd54f;" data-badge-caption="{{ session()->get('count') }}"></span>
+          @endif
         </a></li>
         @endif
         <li style="cursor: pointer;background: #fff" class=""><img class="circle dropdown-button responsive-img waves-effect waves-light warna" data-activates="dropdown1" style="width: 40px;height:39px;margin-top: 2px;margin:10px" src="{!!url('/file/foto/'.Auth::user()->foto)!!}"></li>
@@ -63,6 +66,7 @@
   </div>
     <ul id="slide-out" class="side-nav" style="font-family: segoe UI;font-weight: lighter;">
     <li>
+
     <div class="userView">
       <!-- <div class="background">
         <img src="{{Auth::user()->sampul}}" style="width: 100%;height: 100%">
@@ -80,22 +84,17 @@
       <div class="chip col s12 center" style="margin-top: 10px;width:100%;font-size: 15pt">
       {{ count($iklan) }} Iklan
       </div>
-
-    
       <div class="divider"></div>
-    </div>
-    </li>
+      </div>
+      </li>
         <li><a href="/home" class="waves-effect waves-light warna" id="jas"><i class="material-icons" id="jas">av_timer</i>Dashboard</a></li>
         <li><a href="/profile" class="waves-effect waves-light warna" id="jas"><i class="material-icons">account_circle</i>Profile</a></li>
           @if(Auth::user()->type=='admin')
         <li><a href="{{route('waiting')}}" class="waves-effect waves" id="jas"><i class="material-icons left">hourglass_empty</i>Permintaan
         @if(session('count'))
-
-          
-  <div class="chip blue white-text">
-    {{ session()->get('count') }} 
-  </div>
-        
+          <div class="chip blue white-text">
+            {{ session()->get('count') }} 
+          </div>
         @endif
         </a></li>
         @endif
@@ -114,8 +113,25 @@
       <script type="text/javascript" src="{{url('/materialize/js/materialize.min.js') }}"></script>
 
       <script type="text/javascript">
-              $(document).ready(function () {
-    var ckbox = $('#test5');
+      (function(){
+        $('#provinsi').on('change', function(){
+          $.ajax({
+            url : '{{url('api/daftar_kabupaten')}}/'+this.value,
+            type: 'get',
+            success : function(data){
+              console.log(data);
+              $("#kabupaten").html("");
+              $.each(data.kabupaten, function(index, value){
+                $('#kabupaten').append('<option value="'+value.Nama+'">'+value.Nama+'</option>')
+              });
+              $("#kabupaten").material_select();
+            }
+          })
+        });
+      }())
+
+      $(document).ready(function () {
+      var ckbox = $('#test5');
 
     $('input').on('click',function () {
         if (ckbox.is(':checked')) {
@@ -123,8 +139,12 @@
         } else {
             document.getElementById("soldout").className = "waves-effect waves-light btn disabled";
         }
+        });
     });
-});
+               $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
           $(document).ready(function() {
               $('.carousel').carousel();
           })
@@ -185,7 +205,7 @@
           font-size: 12pt;
         }
         .nana{
-          margin-left: 20px;
+          margin-left: 30px;
         }
         #dropdown1{
           margin-top: 65px;
@@ -195,7 +215,7 @@
         @media only screen and (max-width: 992px) {
         .nana{
           width: 125px;
-          margin-left: -0.5px;
+          margin-left: 20px;
         }
         #jas:hover{
           color: white;

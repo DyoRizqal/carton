@@ -79,32 +79,11 @@ $foto = \App\Foto::where(['user_id'=>$key->id_user, 'post_id'=>$key->id])->first
   </div>
     </div>
     @endif
-<div class="fixed-action-btn">
-    <a class="btn-floating btn-large red" href="{{route('profile')}}">
-      <i class="large material-icons">@if(Auth::user()->type=="")mode_edit @else supervisor_account @endif</i>
-    </a>
-  </div>
+
     <script type="text/javascript">
-      (function(){
-        $('#provinsi').on('change', function(){
-          $.ajax({
-            url : '{{url('api/daftar_kabupaten')}}/'+this.value,
-            type: 'get',
-            success : function(data){
-              console.log(data);
-              $("#kabupaten").html("");
-              $.each(data.kabupaten, function(index, value){
-                $('#kabupaten').append('<option value="'+value.Nama+'">'+value.Nama+'</option>')
-              });
-              $("#kabupaten").material_select();
-            }
-          })
-        });
-      }())
-        
     $(function() {
           $('select.kabupaten').on('change',function() {
-                window.location.href =  "cari/"+$(this).val();
+                window.location.href =  $(this).val();
           });
     });
   $(document).ready(function(){

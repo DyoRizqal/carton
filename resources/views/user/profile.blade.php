@@ -26,7 +26,11 @@
           </div>
         </div>
      </div>
-@if(Auth::user()->type!='admin')
+     @php
+      $prov =  \App\Provinsi::orderBy('Nama','asc')->get();
+      $kab =  \App\Kabupaten::orderBy('Nama','asc')->get();
+     @endphp
+@if(Auth::user()->type=='')
 		<div class="col s12 m9">
           <div class="card">
               <div class="card-title blue white-text" style="font-size: 15pt;padding: 7px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">Iklan</div>
@@ -46,7 +50,7 @@
                     @endif
                     </div>
               	<div class="input-field col s12">
-                  <form class="form-horizontal" method="POST" action="{{route('save_art')}}" enctype="multipart/form-data">
+                  <form class="form-horizontal" method="POST" action="{{route('save_art')}}" enctype="multipart/form-data" autocomplete="off">
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">create</i>
@@ -58,6 +62,24 @@
           			  <textarea name="deks" id="content" required></textarea>
                <!-- <label for="textarea1"></label> -->
         			  </div>
+                <div class="col s12 m6">
+                  <select id="provinsi" name="provinsi1" class="left col s12 provinsi">
+                  <option value="" id="optionProvinsi" disabled selected>Provinsi</option>
+                  @foreach($prov as $provinsi)
+                  <option value="{{$provinsi->IDProvinsi}}">{{$provinsi->Nama}}</option>
+                  @endforeach
+                  </select>
+                </div>
+                <div class="col s12 m6">
+                <select class="left col s12 kabupaten" name="tempat" id="kabupaten">
+                 <option value="" id="optionKabupaten" disabled selected>Kabupaten</option>
+                </select>
+                </div>
+               <div class="col s12 m6 hide">
+                <select class="left col s12 provinsi1" name="provinsi" id="provinsi1">
+                 <option value="" id="optionProvinsi1" disabled selected>Nama</option>
+                </select>
+                </div>
                 <div class="input-field col s12">
                   <i class="material-icons prefix">attach_money</i>
                   <!-- <div id="selling_limit_div" class="form-control for_numberinput"></div>
@@ -85,16 +107,75 @@
 	   </div>
     </div>
    </div>
-@else
+@elseif(Auth::user()->type!='')
+
   <div class="col s12 m9">
           <div class="card">
-              <div class="card-title blue white-text" style="font-size: 15pt;padding: 7px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">Iklan</div>
+              <div class="card-title blue white-text" style="font-size: 15pt;padding: 7px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">
+              <div class="left">Daftar Admin</div>
+              @if(Auth::user()->type=='superadmin')
+              <a href="{{route('add_admin')}}">
+              <div class="right white-text waves-effect waves-light tooltipped" data-position="left" data-delay="50" data-tooltip="Tambah Admin"><i class="material-icons">add</i>
+              </div>
+              </a>
+              @endif
+              </div>
             <div class="card-content">
                 <div class="row">
-@endif
-  </div>
+                <ul class="collection">
+                @foreach($admin as $admins)
+    <li class="collection-item avatar">
+      <img src="{!!url('/file/foto/'.$admins->foto)!!}" alt="" class="circle">
+      <span class="title">{{$admins->name}}</span>
+      <p style="font-size: 10pt"> {{$admins->email}}<br>
+         <i class="material-icons" style="float: left;margin-right: 5px">date_range</i>Bergabung sebagai admin pada {{$admins->tanggal_jadi}}
+      </p>
+      @if(Auth::user()->type=='superadmin')<form action="{{route('delete_admin',$admins->id)}}" method="POST">
+      {{csrf_field()}} 
+      <button  type="submit" class="secondary-content waves-effect waves-teal btn-flat tooltipped" data-position="left" data-delay="50" data-tooltip="Cabut Akses Admin"><i class="material-icons">remove_circle_outline</i></button>@endif
+    </li>
+    @endforeach
+  </ul>
 
-    
+  </div>
+  @endif
+<script type="text/javascript">
+  
+          (function(){
+        $('#provinsi').on('change', function(){
+          $.ajax({
+            url : '{{url('api/daftar_provinsi')}}/'+this.value,
+            type: 'get',
+            success : function(data){
+              console.log(data);
+              $("#provinsi1").html("");
+              $.each(data.provinsi1, function(index, value){
+                $('#provinsi1').append('<option value="'+value.Nama+'">'+value.Nama+'</option>')
+              });
+              $("#provinsi1").material_select();
+            }
+          })
+        });
+      }())
+</script>
+    <script type="text/javascript">
+         (function(){
+        $('#provinsi').on('change', function(){
+          $.ajax({
+            url : '{{url('api/daftar_kabupaten')}}/'+this.value,
+            type: 'get',
+            success : function(data){
+              console.log(data);
+              $("#kabupaten").html("");
+              $.each(data.kabupaten, function(index, value){
+                $('#kabupaten').append('<option value="'+value.Nama+'">'+value.Nama+'</option>')
+              });
+              $("#kabupaten").material_select();
+            }
+          })
+        });
+      }())
+    </script>
 
      <style type="text/css">
   input.jqx-input-content.jqx-widget-content {

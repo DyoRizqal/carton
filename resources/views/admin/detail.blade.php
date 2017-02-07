@@ -6,20 +6,26 @@
     <div class="row">
         <div class="col s12 m8">
             <div class="card">
+                @if($artikel->id_user == Auth::user()->id)
+             @if($artikel->sold != "sold")
+            <a href="{{route('edt_art',$artikel->id)}}"><span class="new badge yellow black-text" data-badge-caption="Edit" style="margin-top: 5px"></span></a>
+            @endif
+            @endif
              <div class="card-title blue white-text" style="font-size: 12pt;padding: 4px;">{{$artikel->judul}} </div>
-                <div class="card-action"></div>
+       
+                <div class="card-action">
+
                 <div class="col s12">
-                    {!!$artikel->deksripsi!!}<br>
+                    {!!$artikel->deksripsi!!} <br>
                 </div>
                     <div class="row center">
+
                     <div class="col s12">
                         <img id="image" class="responsive-img" style="margin-bottom: 50px;max-height: 300px;margin-top: 50px;">
                     </div>
-                  
                       @if($artikel->sold == "sold")
             <a href="#"><span class="new badge red" data-badge-caption="Sold Out" style="margin-top: 5px"></span></a>
             @endif
-
                     <div class="carousel">
                         @foreach($foto as $foto)
                        <a class="carousel-item">
@@ -27,9 +33,21 @@
                        </a>
                        @endforeach
                     </div>
-                    <div class="card-action" style="margin-bottom: -30px;"></div> 
+                    <div class="card-action" style="margin-bottom: -30px;"></div>
                           <span class="card-title right blue-text harga">Rp. {!!$artikel['harga']!!}</span>
                     </div>
+
+                        @if($artikel->id_user == Auth::user()->id)
+                        @if($artikel->sold != "sold")
+                        <form action="{{route('sold',$artikel->id)}}" method="POST">
+                        {{csrf_field()}}
+                        <input type="checkbox" id="test5" />
+                        <label for="test5">Ceklist jika barang yang terdapat dalam iklan sudah terjual</label>
+                        <button id="soldout" class="waves-effect waves-light btn disabled" type="submit" data-loading-text="Loading..." style="display: block;margin-top: 10px">Sold</button>
+                        </form>
+                        @endif
+                        @endif
+               
                 </div>
             </div>
         </div>    
@@ -67,6 +85,33 @@
         </div>
 </div>
 </div>
+@if($artikel->status !='approved' && $artikel->status !='rejected')
+  <div class="col s12 m4">
+         <div class="card">
+         <div class="row">
+          <div class="col s12">
+            <div class="card-title blue white-text" style="font-size: 12pt;padding: 4px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis;">Opsi </div>
+              <div class="card-content">
+             <div style="margin-bottom: 40px;">
+                <div class="col s6">
+                <form action="{{route('approved',$artikel->id)}}" method="POST">
+                {{csrf_field()}}
+                  <button type="submit" class="waves-effect waves-light btn">Setuju</button>
+                </form>
+                </div>
+                 <div class="col s6">
+                 <form action="{{route('rejected',$artikel->id)}}" method="POST">
+                 {{csrf_field()}}
+                 <button type="submit" class="waves-effect red waves-light btn">Tolak</button>
+                 </form>
+                </div>
+              </div>
+              </div>
+              </div>
+          </div>  
+        </div>
+  </div>
+  @endif
 
     <style type="text/css">
 

@@ -3,8 +3,8 @@
 @section('content')
 <title>Edit {{$artikel->Judul}}  </title>
      <div class="row" style="margin-top: 20px;">
-     	<!-- <div class="container"> -->
-		<div class="col s12 m4">
+     	<div class="container">
+		<div class="col s12 m12">
           <div class="card">
               <span class="card-title" style="padding: 8px;">Edit Iklan</span>
               <div class="card-action" style="margin-bottom: -40px;margin-top: 15px"></div>
@@ -14,8 +14,8 @@
                   <form class="form-horizontal" method="POST" action="{{route('save_art')}}" enctype="multipart/form-data">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">create</i>
-                    <input id="judul" type="text" name="judul" class="validate" required>
-                    <label for="judul">Judul</label>
+                    <input id="icon_prefix" type="text" name="judul" class="validate" required>
+                    <label for="icon_prefix">Judul</label>
                 </div>
                 <div class="input-field col s12" style="margin-bottom: 10px">
                   <i class="material-icons">description</i> Deskripsi 
@@ -32,14 +32,7 @@
 	   </div>
     </div>
    </div>
-   		<div class="col s12 m8">
-          <div class="card">
-              <span class="card-title" style="padding: 8px;">Lihat Setelah Diedit</span>
-              <div class="card-action" style="margin-bottom: -40px;margin-top: 15px"></div>
-           	<div class="card-content">
-              	<div class="row">
-  </div>
-  </div>	
+	
     
 
      <style type="text/css">
@@ -62,12 +55,4 @@
 	}
 
 </style>
-<script type="text/javascript">
-	(function () {
-		$('#judul').on('change', function(){
-
-	});
-	}())
-		}
-</script>
 @endsection

@@ -23,8 +23,23 @@
 	        <td class="center">{{ $i }}.<?php $i++;?></td>
 	        <td>{{$key->judul}}</td>
 	        <td>{{$key->tanggal}}</td>
-	        <td class="center"><a href="{{route('det_wai',$key->id)}}" class="waves-effect waves-light btn">Detail</a></td>
-	      </tr>
+	        @if($key->status=='waiting')
+	        <td class="center"> <div class="chip black-text col s12 no-user-select" style="background: #ffd54f; cursor: default;">
+		    Menunggu
+		  	</div></td>
+		  	@endif
+		  	@if($key->status=='approved')
+	        <td class="center"> <div class="chip green white-text col s12 no-user-select" style="cursor: default;">
+		    Disetujui
+		  	</div></td>
+		  	@endif
+		  	@if($key->status=='rejected')
+	        <td class="center"> <div class="chip red white-text col s12 no-user-select" style="cursor: default;">
+		    Ditolak
+		  	</div></td>
+		  	@endif
+		  
+		 </tr>
 	    @endforeach
 	    </tbody>
 	  </table>

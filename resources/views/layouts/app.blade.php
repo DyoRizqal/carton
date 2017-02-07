@@ -10,7 +10,7 @@
     <div class="navbar-fixed">
      <nav>
     <div class="nav-wrapper black-text" style="background: #fff">
-  <img class="brand-logo responsive-img nana" src="/logo4.png">
+  <a class="brand-logo" style="font-family: Dolce Vita;color: #f44336;margin-left: 10px;font-weight: bold;" href="/"> CartOn</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="{{ url('/login') }}" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Login"><i class="material-icons left">input</i>Login</a></li>
         <li><a href="{{ url('/register') }}" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Register"><i class="material-icons left">person_add</i>Register</a></li>
@@ -21,17 +21,12 @@
 @yield('content')
       <script type="text/javascript" src="{{url('/js/jquery-2.1.1.min.js')}}"></script>
       <script type="text/javascript" src="{{url('/js/jquery.mask.min.js')}}"></script>
-      <script type="text/javascript" src="{{url('/jqwidgets/jqxcore.js')}}"></script>
-      <script type="text/javascript" src="{{url('/jqwidgets/jqxdata.js')}}"></script>
-      <script type="text/javascript" src="{{url('/jqwidgets/jqxtree.js')}}"></script>
-      <script type="text/javascript" src="{{url('/jqwidgets/jqxcheckbox.js')}}"></script>
-      <script type="text/javascript" src="{{url('/jqwidgets/jqxmaskedinput.js')}}"></script>
-      <script type="text/javascript" src="{{url('/jqwidgets/jqxnumberinput.js')}}"></script>
-      <script type="text/javascript" src="{{url('/jqwidgets/jqxbuttons.js')}}"></script>
       <script type="text/javascript" src="{{url('/materialize/js/materialize.min.js') }}"></script>
       <script type="text/javascript" src="{{url('/ckeditor/ckeditor.js')}}"></script>
         <script type="text/javascript">
-
+          $(document).ready(function(){
+      $('.slider').slider({full_width: true});
+    });
            $('.button-collapse').sideNav({
       menuWidth: 270, // Default is 240
       edge: 'left', // Choose the horizontal origin
