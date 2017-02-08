@@ -80,8 +80,8 @@ $foto = \App\Foto::where(['user_id'=>$key->id_user, 'post_id'=>$key->id])->first
     </div>
     @endif
 <div class="fixed-action-btn">
-    <a class="btn-floating btn-large red" href="{{route('profile')}}">
-      <i class="large material-icons">@if(Auth::user()->type=="")mode_edit @else supervisor_account @endif</i>
+    <a class="btn-floating btn-large red waves-effect waves-light" href="{{route('profile')}}">
+      <i class="large material-icons">@if(Auth::user()->type=="user")mode_edit @else supervisor_account @endif</i>
     </a>
   </div>
     <script type="text/javascript">

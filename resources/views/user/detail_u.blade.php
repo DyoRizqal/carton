@@ -7,8 +7,8 @@
         <div class="col s12 m8">
             <div class="card">
                 @if($artikel->id_user == Auth::user()->id)
-             @if($artikel->sold != "sold")
-            <a href="{{route('edt_art',$artikel->id)}}"><span class="new badge yellow black-text" data-badge-caption="Edit" style="margin-top: 5px"></span></a>
+             @if($artikel->sold != "sold" )
+            <a href="@if($artikel->status=='waiting')# @else {{route('edt_art',$artikel->id)}} @endif"><span class="new badge yellow black-text" data-badge-caption="@if($artikel->status=='waiting')Waiting @else Edit @endif" style="margin-top: 5px"></span></a>
             @endif
             @endif
              <div class="card-title blue white-text" style="font-size: 12pt;padding: 4px;">{{$artikel->judul}} </div>
@@ -36,7 +36,9 @@
                     <div class="card-action" style="margin-bottom: -30px;"></div>
                           <span class="card-title right blue-text harga">Rp. {!!$artikel['harga']!!}</span>
                     </div>
-
+                        @if($artikel->status=='waiting')
+                        
+                        @else
                         @if($artikel->id_user == Auth::user()->id)
                         @if($artikel->sold != "sold")
                         <form action="{{route('sold',$artikel->id)}}" method="POST">
@@ -45,6 +47,7 @@
                         <label for="test5">Ceklist jika barang yang terdapat dalam iklan sudah terjual</label>
                         <button id="soldout" class="waves-effect waves-light btn disabled" type="submit" data-loading-text="Loading..." style="display: block;margin-top: 10px">Sold</button>
                         </form>
+                        @endif
                         @endif
                         @endif
                
@@ -87,7 +90,11 @@
         </div>
 </div>
 </div>
-
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large red waves-effect waves-light" href="{{route('profile')}}">
+      <i class="large material-icons">@if(Auth::user()->type=="user")mode_edit @else supervisor_account @endif</i>
+    </a>
+  </div>
     <style type="text/css">
 
         p{

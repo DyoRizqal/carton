@@ -20,6 +20,9 @@
 	    <tbody>
 	    @foreach($artikel as $key)
 	      <tr>
+	      @if(count($key)==0)
+	      asdasdasdasdasd
+	      @else
 	        <td class="center">{{ $i }}.<?php $i++;?></td>
 	        <td>{{$key->judul}}</td>
 	        <td>{{$key->tanggal}}</td>
@@ -38,11 +41,16 @@
 		    Ditolak
 		  	</div></td>
 		  	@endif
-		  
+		  @endif
 		 </tr>
 	    @endforeach
 	    </tbody>
 	  </table>
 	</div>
 </div>
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large red" href="{{route('profile')}}">
+      <i class="large material-icons">@if(Auth::user()->type=="user")mode_edit @else supervisor_account @endif</i>
+    </a>
+  </div>
 @endsection

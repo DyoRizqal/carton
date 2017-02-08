@@ -295,6 +295,15 @@ class UserController extends Controller
 			$s->save();
 			return redirect(route('profile'));
 		}
+		public function update_art()
+		{
+			$s = \App\Artikel::find(Input::get('id'));
+			$s->judul =  Input::get('judul');
+			$s->deksripsi = Input::get('deks');
+			$s->status = "waiting";
+			$s->save();
+			return redirect(route('det_art',Input::get('id')));
+		}
 		// public function cari_nama(Request $request)
 		// {
 		// $query = $request->get('cari_');

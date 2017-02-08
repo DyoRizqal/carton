@@ -30,7 +30,7 @@
       $prov =  \App\Provinsi::orderBy('Nama','asc')->get();
       $kab =  \App\Kabupaten::orderBy('Nama','asc')->get();
      @endphp
-@if(Auth::user()->type=='')
+@if(Auth::user()->type=='user')
 		<div class="col s12 m9">
           <div class="card">
               <div class="card-title blue white-text" style="font-size: 15pt;padding: 7px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">Iklan</div>
@@ -107,7 +107,7 @@
 	   </div>
     </div>
    </div>
-@elseif(Auth::user()->type!='')
+@elseif(Auth::user()->type!='user')
 
   <div class="col s12 m9">
           <div class="card">
@@ -118,6 +118,7 @@
               <div class="right white-text waves-effect waves-light tooltipped" data-position="left" data-delay="50" data-tooltip="Tambah Admin"><i class="material-icons">add</i>
               </div>
               </a>
+              
               @endif
               </div>
             <div class="card-content">
@@ -133,6 +134,11 @@
       @if(Auth::user()->type=='superadmin')<form action="{{route('delete_admin',$admins->id)}}" method="POST">
       {{csrf_field()}} 
       <button  type="submit" class="secondary-content waves-effect waves-teal btn-flat tooltipped" data-position="left" data-delay="50" data-tooltip="Cabut Akses Admin"><i class="material-icons">remove_circle_outline</i></button>@endif
+      @if(Auth::user()->type=='admin')
+        @if($admins->name==Auth::user()->name)
+              <span class="new badge" data-badge-caption="" style="cursor: pointer;">Saya</span><br>
+              @endif
+              @endif
     </li>
     @endforeach
   </ul>

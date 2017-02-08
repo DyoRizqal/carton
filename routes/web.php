@@ -57,6 +57,7 @@ Route::get('/add_admin', ['as'=>'add_admin','uses'=>'UserController@add_admin'])
 Route::post('/approved/{id}', ['as'=>'approved','uses'=>'UserController@approved']);
 Route::post('/save_admin/{id}', ['as'=>'save_admin','uses'=>'UserController@save_admin']);
 Route::post('/delete_admin/{id}', ['as'=>'delete_admin','uses'=>'UserController@delete_admin']);
+Route::post('/update', ['as'=>'update_art','uses'=>'UserController@update_art']);
 Route::post('/rejected/{id}', ['as'=>'rejected','uses'=>'UserController@rejected'])->middleware('auth');
 
 //Artikel

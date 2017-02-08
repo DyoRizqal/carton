@@ -35,8 +35,7 @@
       <ul class="right hide-on-med-and-down">
         <li><a href="/home" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Dashboard"><i class="material-icons">dashboard</i></a></li>
         <!-- <li><a href="#" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Profile"><i class="material-icons">view_module</i></a></li> -->
-           @if(Auth::user()->type!='')
-
+           @if(Auth::user()->type!='user')
           <li><a href="{{route('waiting')}}" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Permintaan Persetujuan"><i class="material-icons @if(session('count')) left @endif">hourglass_empty</i>
             @if(session('count'))
               <span class="new badge blue white-text">{{ session()->get('count') }}</span>
@@ -45,7 +44,7 @@
             @else
              <li><a href="{{route('request')}}" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Menunggu Persetujuan"><i class="material-icons @if(session('count1')) left @endif">hourglass_empty</i>
             @if(session('count1'))
-          <span class="new badge black-text" style="background: #ffd54f;" data-badge-caption="{{ session()->get('count') }}"></span>
+          <span class="new badge black-text" style="background: #ffd54f;" data-badge-caption="{{ session()->get('count1') }}"></span>
           @endif
         </a></li>
         @endif

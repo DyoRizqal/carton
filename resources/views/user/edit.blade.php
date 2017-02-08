@@ -11,16 +11,17 @@
            	<div class="card-content">
               	<div class="row">
               	<div class="input-field col s12">
-                  <form class="form-horizontal" method="POST" action="{{route('save_art')}}" enctype="multipart/form-data">
+                  <form class="form-horizontal" method="POST" action="{{route('update_art')}}" enctype="multipart/form-data">
+                  <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">create</i>
-                    <input id="icon_prefix" type="text" name="judul" class="validate" required>
+                    <input id="icon_prefix" type="text" name="judul" class="validate" value="{{$artikel->judul}}" required>
+                    <input id="icon_prefix" type="hidden" name="id" class="validate" value="{{$artikel->id}}" required>
                     <label for="icon_prefix">Judul</label>
                 </div>
                 <div class="input-field col s12" style="margin-bottom: 10px">
                   <i class="material-icons">description</i> Deskripsi 
-                  <input type="hidden" name="_token" value="{{csrf_token()}}">
-          			  <textarea name="deks" id="content" required></textarea>
+          			  <textarea name="deks" id="content" required>{{$artikel->deksripsi}}</textarea>
                <!-- <label for="textarea1"></label> -->
         			  </div>
         			  <div class="col s12">
