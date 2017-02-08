@@ -31,9 +31,9 @@
 
     <div class="nav-wrapper black-text" style="background: #fff;">
 
-      <a class="brand-logo nana" style="font-family: Dolce Vita;color: #f44336;font-weight: bold;" href="/"> CartOn</a>
+      <a class="brand-logo nana" style="font-family: Dolce Vita;color: #f44336;font-weight: bold;" href="{{route('home')}}"> CartOn</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="/home" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Dashboard"><i class="material-icons">dashboard</i></a></li>
+        <li><a href="{{route('home')}}" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Dashboard"><i class="material-icons">dashboard</i></a></li>
         <!-- <li><a href="#" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Profile"><i class="material-icons">view_module</i></a></li> -->
            @if(Auth::user()->type!='user')
           <li><a href="{{route('waiting')}}" class="waves-effect waves-light warna tooltipped" data-position="bottom" data-delay="50" data-tooltip="Permintaan Persetujuan"><i class="material-icons @if(session('count')) left @endif">hourglass_empty</i>
