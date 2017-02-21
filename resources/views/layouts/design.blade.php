@@ -4,6 +4,7 @@
       <link href="{{url('/css/icon.css') }}" rel="stylesheet">
       <link type="text/css" rel="stylesheet" href="{{url('/materialize/css/materialize.min.css')}}"  media="screen,projection"/>
       <link rel="stylesheet" href="{{url('fa/css/font-awesome.min.css')}}">
+      <link rel="shorcut icon" href="{{url('../logo.png')}}">
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <script type="text/javascript" src="{{url('/js/jquery-2.1.1.min.js')}}"></script>
       <script type="text/javascript" src="{{url('/js/jquery.mask.min.js')}}"></script><!-- 

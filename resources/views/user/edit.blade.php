@@ -11,7 +11,7 @@
            	<div class="card-content">
               	<div class="row">
               	<div class="input-field col s12">
-                  <form class="form-horizontal" method="POST" action="{{route('update_art')}}" enctype="multipart/form-data">
+                  <form class="form-horizontal" method="POST" action="{{route('update_art')}}" autocomplete="off" enctype="multipart/form-data">
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">create</i>

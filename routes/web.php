@@ -63,6 +63,7 @@ Route::post('/rejected/{id}', ['as'=>'rejected','uses'=>'UserController@rejected
 //Artikel
 Route::post('/register/add', ['as'=>'register_add','uses'=>'UserController@register_add']);
 Route::post('/save_art',['as'=>'save_art','uses'=>'UserController@save_art']);
+Route::post('/hapus/{id}',['as'=>'hapus','uses'=>'UserController@hapus']);
 Route::post('/sold/{id}',['as'=>'sold','uses'=>'UserController@sold']);
 Route::get('/detail_artikel/{id}', ['as'=>'det_art','uses'=>'UserController@det_art'])->middleware('auth');
 Route::get('/cari/', ['as'=>'cari','uses'=>'UserController@cari'])->middleware('auth');
@@ -93,5 +94,7 @@ Route::get('api/daftar_provinsi/{id}', function($id) {
 
 	return response()->json($response);
 });
+Route::get('/report', ['as'=>'report','uses'=>'UserController@report'])->middleware('auth');
+Route::get('/laporan', ['as'=>'laporan','uses'=>'UserController@laporan'])->middleware('auth');
 
 

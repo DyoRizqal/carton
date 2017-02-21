@@ -8,7 +8,7 @@
           <div class="card">
               <span class="card-title" style="padding: 8px;">Register</span>
               <div class="card-action" style="margin-bottom: -40px"></div>
-                <form class="form-horizontal" method="POST" action="{{route('register_add')}}" enctype="multipart/form-data">
+                <form class="form-horizontal" method="POST" action="{{route('register_add')}}" autocomplete="off" enctype="multipart/form-data">
                         <!-- {{ csrf_field() }} -->
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
             <div class="card-content">

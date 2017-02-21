@@ -75,7 +75,7 @@
                  <option value="" id="optionKabupaten" disabled selected>Kabupaten</option>
                 </select>
                 </div>
-               <div class="col s12 m6 hide">
+               <div class="col s12 m6">
                 <select class="left col s12 provinsi1" name="provinsi" id="provinsi1">
                  <option value="" id="optionProvinsi1" disabled selected>Nama</option>
                 </select>
@@ -131,7 +131,7 @@
       <p style="font-size: 10pt"> {{$admins->email}}<br>
          <i class="material-icons" style="float: left;margin-right: 5px">date_range</i>Bergabung sebagai admin pada {{$admins->tanggal_jadi}}
       </p>
-      @if(Auth::user()->type=='superadmin')<form action="{{route('delete_admin',$admins->id)}}" method="POST">
+      @if(Auth::user()->type=='superadmin')<form action="{{route('delete_admin',$admins->id)}}" autocomplete="off" method="POST">
       {{csrf_field()}} 
       <button  type="submit" class="secondary-content waves-effect waves-teal btn-flat tooltipped" data-position="left" data-delay="50" data-tooltip="Cabut Akses Admin"><i class="material-icons">remove_circle_outline</i></button>@endif
       @if(Auth::user()->type=='admin')

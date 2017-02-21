@@ -5,7 +5,7 @@
     </div>
     <div class="text">
       403 Access Denied
-      <a href="{{route('home')}}" class="waves-effect waves-light btn as">Kembali</a>
+      <a href ="javascript:history.back()"" class="waves-effect waves-light btn as">Kembali</a>
     </div>
 
   </div>

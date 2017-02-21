@@ -9,7 +9,7 @@
         	<div class="card">
               <span class="card-title" style="padding: 10px;"><i class="material-icons">photo</i> Foto</span>
               <div class="card-action" style="margin-bottom: -40px"></div>
-                <form class="form-horizontal" method="POST" action="{{route('save_img')}}" enctype="multipart/form-data">
+                <form class="form-horizontal" method="POST" autocomplete="off" action="{{route('save_img')}}" enctype="multipart/form-data">
                         <!-- {{ csrf_field() }} -->
                   <input type="hidden" name="_token" value="{{csrf_token()}}">
                   <input id="icon_prefix" type="hidden" name="name" class="validate" value="{{Auth::user()->name}}" required>
@@ -93,7 +93,7 @@
       <div class="collapsible-header"><i class="material-icons">face</i>Umum</div>
       <div class="collapsible-body">
       <!-- <div class="col s12"> -->
-      <form method="POST" action="{{route('save_profile')}}" enctype="multipart/form-data">
+      <form method="POST" action="{{route('save_profile')}}" autocomplete="off" enctype="multipart/form-data">
                         <!-- {{ csrf_field() }} -->
           <input type="hidden" name="_token" value="{{csrf_token()}}">
           
@@ -134,7 +134,7 @@
       <div class="collapsible-header"><i class="material-icons">lock</i>Password</div>
       <div class="collapsible-body">     
       <!-- <div class="col s12">         -->   
-      <form method="POST" action="{{route('save_pw')}}" enctype="multipart/form-data">
+      <form method="POST" action="{{route('save_pw')}}" autocomplete="off" enctype="multipart/form-data">
                         <!-- {{ csrf_field() }} -->
         <input type="hidden" name="_token" value="{{csrf_token()}}">
 

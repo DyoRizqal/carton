@@ -3,7 +3,7 @@
 @section('content')
 <title>Home</title>
     <div class="row" style="font-family: segoe UI;font-weight: lighter;">
-    <div class="card col s12" style="margin-top: 0">
+    <div class="card col s12" style="margin-top: -15px">
         <div class="col s12 m4">
         <select id="provinsi" class="left col s12 provinsi">
         <option value="" id="optionProvinsi" disabled selected>Provinsi</option>
@@ -33,15 +33,15 @@
                     session()->forget('notfound');
                     @endphp
                     @endif
-@if(count($artikel) > 0)
+              @if(count($artikel) > 0)
 
-    @foreach($artikel as $key)
-@php
+                  @foreach($artikel as $key)
+              @php
 
 $foto = \App\Foto::where(['user_id'=>$key->id_user, 'post_id'=>$key->id])->first();
 
 @endphp
-        <div class="col s12 m3" >
+        <div class="col s12 m3">
             <div class="card" style="height: 360px;">
             @if($key->sold == "sold")
             <a href="#modal1" style="text-decoration: none;">
@@ -65,6 +65,10 @@ $foto = \App\Foto::where(['user_id'=>$key->id_user, 'post_id'=>$key->id])->first
         </div>
 
         @endforeach
+</div>
+  
+       
+    
           <!-- Modal Structure -->
  <!-- Modal Structure -->
   <div id="modal1" class="modal">
@@ -79,11 +83,19 @@ $foto = \App\Foto::where(['user_id'=>$key->id_user, 'post_id'=>$key->id])->first
   </div>
     </div>
     @endif
+    
 <div class="fixed-action-btn">
-    <a class="btn-floating btn-large red waves-effect waves-light" href="{{route('profile')}}">
+    <a class="btn-floating btn-large red waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Tambah @if(Auth::user()->type!='user') Admin @else Iklan @endif" href="{{route('profile')}}">
       <i class="large material-icons">@if(Auth::user()->type=="user")mode_edit @else supervisor_account @endif</i>
     </a>
+    @if(Auth::user()->type=='superadmin')
+    <a class="btn-floating btn-large red waves-effect waves-light tooltipped" data-position="top" data-delay="50" data-tooltip="Laporan" href="{{route('report')}}">
+      <i class="large material-icons">print</i>
+    </a>
+    @endif
   </div>
+  
+
     <script type="text/javascript">
       (function(){
         $('#provinsi').on('change', function(){

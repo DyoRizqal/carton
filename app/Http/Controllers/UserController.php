@@ -7,6 +7,7 @@ use Input;
 use Auth;
 use Akun;
 use Hash;
+use PDF;
 
 class UserController extends Controller
 {
@@ -21,7 +22,10 @@ class UserController extends Controller
 			return view('home')->with($s);
 			}
 			else{
-			return view('welcome');
+			$s['artikel'] = \App\Artikel::orderBy('id', 'desc')->where('status','approved')->get();
+			$s['prov'] =  \App\Provinsi::orderBy('Nama','asc')->get();
+			$s['kab'] =  \App\Kabupaten::orderBy('Nama','asc')->get();
+			return view('welcome')->with($s);
 			}
 		}
 		public function home(){
@@ -90,11 +94,11 @@ class UserController extends Controller
 			$s->password = bcrypt(Input::get('pw_baru'));
 	    	$r->session()->put('success', 'Password Berhasil Diubah');
 	    	$s->save();
-	    	return view('user.settings');
-		}
+	    	return redirect(route('settings'));
+	    	}		
 		else {
 			$r->session()->put('error', 'Password Lama Tidak Sama');
-			return view('user.settings');
+			return redirect(route('settings'));
 			}
 		}
 
@@ -207,8 +211,8 @@ class UserController extends Controller
 	}
 		public function request()
 		{	
-			if(Auth::user()->type !='admin'){
-			$s['artikel'] = \App\Artikel::orderBy('id','desc')->where('id_user',Auth::user()->id)->get();
+			if(Auth::user()->type =='user'){
+			$s['artikel'] = \App\Artikel::orderBy('id','desc')->where('id_user',Auth::user()->id)->where('type',NULL)->get();
 			$s['iklan'] =  \App\Artikel::where('id_user',Auth::user()->id)->get();
 			return view('user.wait_u')->with($s);
 			}
@@ -228,28 +232,27 @@ class UserController extends Controller
 			$s = \App\Artikel::find($id);
 			$s->status = "rejected";
 			$s->save();
+			$d =  new \App\Semua;
+			$d->id_user = $s->id_user;
+			$d->judul = $s->judul;
+			$d->deksripsi = $s->deksripsi;
+			$d->harga = $s->harga;
+			$d->tanggal = $s->tanggal;
+			$d->sold = $s->sold;
+			$d->status = $s->status;
+			$d->tempat = $s->tempat;
+			$d->provinsi = $s->provinsi;
+			$d->save();
 			return redirect(route('det_wai',$id));
 		}
 		public function cari(Request $r)
 		{
-			$cari		 = Input::get('cari');
-			$artikel 	 = \App\Artikel::where('deksripsi','LIKE', '%' . $cari . '%')->where('status','approved')->get();
-			$artikel1 	 = \App\Artikel::where('judul','LIKE', '%' . $cari . '%')->where('status','approved')->get();
+			$cari		 =  $r->get('cari');
+			$artikel 	 = \App\Artikel::where('deksripsi','LIKE', '%' . $cari . '%')->orWhere('judul','LIKE','%' . $cari . '%')->where('status','approved')->get();
 			$s['prov'] 	 = \App\Provinsi::orderBy('Nama','asc')->get();
 			$s['kab'] 	 = \App\Kabupaten::orderBy('Nama','asc')->get();
 			$s['iklan']  = \App\Artikel::where('id_user',Auth::user()->id)->get();
-			if(count($artikel)!=0){
-				return view('user.cari')->with('artikel',$artikel)->with('artikel1',$artikel1)->with($s);
-			}
-			else if(count($artikel)==0){
-				$artikel1 	 = \App\Artikel::where('judul','LIKE', '%' . $cari . '%')->where('status','approved')->get();
-				return view('user.cari')->with($s)->with('artikel',$artikel1);
-			}
-			else{
-			// return view('user.cari')->with('artikel',$artikel)->with('artikel1',$artikel1)->with($s);
-				session()->put('notfound', 'Data Tidak Ditemukan!');
-				return view('user.cari')->with($s)->with($artikel)->with($artikel1);
-			}
+				return view('user.cari',compact('artikel','cari'))->with($s);
 		}
 		public function nama($nama)
 		{
@@ -272,7 +275,7 @@ class UserController extends Controller
 			$s['prov'] =  \App\Provinsi::orderBy('Nama','asc')->get();
 			$s['kab'] =  \App\Kabupaten::orderBy('Nama','asc')->get();
 			$s['iklan'] =  \App\Artikel::where('id_user',Auth::user()->id)->get();	
-			if(Auth::user()->type==''){
+			if(Auth::user()->type=='user'){
 				return view('errors.403');
 			}
 			else{
@@ -283,7 +286,8 @@ class UserController extends Controller
 		{
 			$s = \App\Akun::find($id);
 			$s->type = "admin"; 
-			date_default_timezone_set('Asia/Jakarta'); 
+			
+			_default_timezone_set('Asia/Jakarta'); 
 			$s->tanggal_jadi = date("D, d M Y,H:i");
 			$s->save();
 			return redirect(route('profile'));
@@ -298,11 +302,79 @@ class UserController extends Controller
 		public function update_art()
 		{
 			$s = \App\Artikel::find(Input::get('id'));
-			$s->judul =  Input::get('judul');
+			$s->judul =  "<b>".Input::get('judul')."</b>";
 			$s->deksripsi = Input::get('deks');
 			$s->status = "waiting";
 			$s->save();
 			return redirect(route('det_art',Input::get('id')));
+		}
+		public function report()
+		{
+			if(Auth::user()->type=='user'){
+				return view('errors.403');
+			}
+			else{
+				$s['semua']  = \App\Semua::all();
+				$s['ditolak'] = \App\Artikel::where('status','rejected')->get();
+				$s['disetujui'] = \App\Artikel::where('status','approved')->get();
+				$s['menunggu'] = \App\Artikel::where('status','waiting') ->get();
+				$s['dihapus'] = \App\Semua::where('type','dihapus')->get();
+				$s['iklan'] =  \App\Artikel::where('id_user',Auth::user()->id)->get();
+				return view('admin.report')->with($s);
+			}
+		}
+		public function laporan(){
+			date_default_timezone_set('Asia/Jakarta'); 
+			$jenis = Input::get('jenis_iklan');
+			if($jenis == "semua"){
+				$data = \App\Artikel::all();
+				$data1 = $jenis;
+				$pdf = PDF::loadView('vista',['data'=>$data, 'data1'=>$data1])->setPaper('a4', 'landscape');
+				$tanggal =date("d M Y");
+				return $pdf->stream('Laporan Semua Data '.$tanggal.'.pdf');	
+				// return view('vista')->with('data',$data1)->with('data1',$data1)->with('jenis',$jenis);
+			}
+			else if($jenis == "menunggu"){
+				$data = \App\Artikel::where('status','waiting')->get();
+				$data1 = $jenis;
+				$pdf = PDF::loadView('vista',['data'=>$data, 'data1'=>$data1])->setPaper('a4', 'landscape');
+				$tanggal =date("d M Y");
+				return $pdf->stream('Laporan Pending '.$tanggal.'.pdf');	
+			}
+			else if($jenis == "ditolak"){
+				$data = \App\Artikel::where('status','rejected')->get();
+				$data1 = $jenis;
+				$pdf = PDF::loadView('vista',['data'=>$data, 'data1'=>$data1])->setPaper('a4', 'landscape');
+				$tanggal =date("d M Y");
+				return $pdf->stream('Laporan Data Ditolak '.$tanggal.'.pdf');	
+			}
+			else if($jenis == "disetujui"){
+				$data = \App\Artikel::where('status','approved')->get();
+				$data1 = $jenis;
+				$pdf = PDF::loadView('vista',['data'=>$data, 'data1'=>$data1])->setPaper('a4', 'landscape');
+				$tanggal =date("d M Y");
+				return $pdf->stream('Laporan Data Disetujui '.$tanggal.'.pdf');	
+			}
+			else if($jenis == "dihapus"){
+				$data = \App\Artikel::where('status','deleted')->get();
+				$data1 = $jenis;
+				$pdf = PDF::loadView('vista',['data'=>$data, 'data1'=>$data1])->setPaper('a4', 'landscape');
+				$tanggal =date("d M Y");
+				// return $data;
+				return $pdf->stream('Laporan Data Terhapus '.$tanggal.'.pdf');	
+			}
+			else{
+				return view('errors.404');
+			}
+		}
+		public function hapus($id)
+		{
+				$s =  \App\Artikel::find($id);
+				$s->status = 'deleted';
+				$s->type  = 'dihapus';
+				$s->save();
+				session()->put('delete', 'Data berhasil dihapus!');
+				return redirect(route('home'));
 		}
 		// public function cari_nama(Request $request)
 		// {
@@ -314,4 +386,6 @@ class UserController extends Controller
 		// $s['iklan'] =  \App\Artikel::where('id_user',Auth::user()->id)->get();	
   //   	return view('admin.cari_nama', compact('hasil', 'query'))->with($s);
   //   	}		
+
 	}
+

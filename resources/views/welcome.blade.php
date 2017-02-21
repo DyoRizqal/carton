@@ -1,47 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
-<title>CartOn - Make Your Shop Is Easy</title>
-  <div class="slider fullscreen">
-    <ul class="slides">
-      <li>
-        <img src="{{url('img/1.png')}}"> <!-- random image -->
-        <div class="caption center-align">
-          <h3 class="red-text">Memudahkan pembelian barang</h3>
-          <h5 class="light red-text text-lighten-3">sesuai keinginan</h5>
+<div class="row" style="font-family: segoe UI;font-weight: lighter;">
+    <div class="card col s12" style="margin-top: -15px">
+          @foreach($artikel as $key)
+              @php
+
+$foto = \App\Foto::where(['user_id'=>$key->id_user, 'post_id'=>$key->id])->first();
+
+@endphp
+        <div class="col s12 m3">
+            <div class="card" style="height: 360px;">
+            @if($key->sold == "sold")
+            <a href="#modal1" style="text-decoration: none;">
+            @else
+            <a href="{{route('det_art',$key->id)}}" class="black-text">
+            @endif
+              <div class="card-title blue white-text" style="font-size: 12pt;padding: 4px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis;">{{$key->judul}} </div>
+                <div class="card-action" style="margin-top: 5px"></div>
+                    <div class="row center">
+                      @if($key->sold == "sold")
+                <span class="new badge red" data-badge-caption="Sold Out" style="font-size: 12pt;border-radius: 0px;margin-top: -25px"></span>
+                @endif
+                    <img src="{!!url('/file/foto/'.$foto->filename)!!}" class="responsive-img waves-effect waves-light" style="height: 200px;width: 200px;margin-bottom: 10px;margin-top: 10px"><br>
+                    <div class="card-action" style="margin-bottom: -30px;background-size:cover"></div>
+                          <span class="card-title right blue-text" style="padding: 2px;padding-right: 5px;font-weight: bold;">
+                          Rp. {!!$key['harga']!!}</span>
+                    </div>
+            </div>
+            </a>
+        </a>
         </div>
-      </li>
-      <li>
-        <img src="{{url('img/2.png')}}"> <!-- random image -->
-        <div class="caption left-align">
-          <h3 class="red-text">Melihat harga barang </h3>
-          <h5 class="light red-text text-lighten-3">sesuai kebutuhan</h5>
-        </div>
-      </li>
-      <li>
-        <img src="{{url('img/3.png')}}"> <!-- random image -->
-        <div class="caption right-align">
-          <h3 class="red-text">Bernegosiasi untuk mendapatkan</h3>
-          <h5 class="light red-text text-lighten-3">persetujuan yang sesuai</h5>
-        </div>
-      </li>
-      <li>
-        <img src="{{url('img/4.png')}}"> <!-- random image -->
-        <div class="caption center-align">
-          <h3 class="red-text">Meningkatkan kepuasan pelanggan</h3>
-          <h5 class="light red-text text-lighten-3">sehingga brand awareness dan customer loyality akan meningkat</h5>
-        </div>
-      </li>
-    </ul>
+
+        @endforeach
+</div>
+  
+       
+    
+          <!-- Modal Structure -->
+ <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+  <div class="col s12">
+    <div class="modal-content">
+      <h4>Oppsss.... </h4>
+      <p>Tidak dapat melihat detail penjualan, karena barang yang dipilih sudah tidak tersedia.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">ya, saya mengerti</a>
+    </div>
   </div>
-      
-<style type="text/css">
-  img{
-     -webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);
-  }
-</style>
+    </div>
   @endsection
